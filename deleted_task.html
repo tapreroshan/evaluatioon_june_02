@@ -3,15 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
+    <title>Deleted Tasks</title>
 </head>
+<style>
+    body {
+        background-color: #F2F2F2;
+    }
+    .navbar {
+        background-color: green;
+    }
+    .nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    a {
+        text-decoration: none;
+        color: #F2F2F2;
+    }
+    .container {
+        background: white;
+        margin-top: 50px;
+        margin-left: 40px;
+        margin-right: 40px;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 8px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    thead {
+        background-color: green;
+    }
+    th {
+        color: #F2F2F2;
+    }
+    th, td {
+        padding: 8px;
+        text-align: center;
+    }
+    .button {
+        background-color: green;
+        color: white;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+    }
+    .restoreButton {
+        background-color: greenyellow;
+        color: black;
+    }
+    select {
+        margin: 10px;
+        padding: 5px;
+    }
+</style>
 <body>
     <nav class="navbar">
-        <div>
+        <div class="nav">
             <h3>Masai-Task-Manager</h3>
             <a href="./index.html">Home</a>
-            <a href="./deleted_task.html">Deleted Task</a>
+            <a href="./deletedTask.html">Deleted Task</a>
         </div>
     </nav>
+    <div class="container">
+        <div>
+            <select id="filterPriority">
+                <option value="">Filter by Priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <select id="filterStatus">
+                <option value="">Filter by Status</option>
+                <option value="pending">Pending</option>
+                <option value="in-progress">In-progress</option>
+                <option value="complete">Complete</option>
+            </select>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Restore</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="deletedTableBody">
+
+            </tbody>
+        </table>
+    </div>
+
 </body>
+<script src="./script/deletedTask.js"></script>
 </html>

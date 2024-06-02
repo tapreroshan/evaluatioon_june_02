@@ -3,93 +3,105 @@ let tablebody = document.getElementById("tableBody");
 let inputtitle = document.getElementById("task");
 let priorityselect = document.getElementById("priority");
 
-// Function for JSON and local storage
-function getTask() {
+function getTasks() {
     return JSON.parse(localStorage.getItem("task")) || [];
 }
 
-function getdelete() {
+function getDeletedTasks() {
     return JSON.parse(localStorage.getItem("deleted")) || [];
 }
 
-function saveTask(task) {
-    localStorage.setItem("task", JSON.stringify(task));
+function saveTasks(tasks) {
+    localStorage.setItem("task", JSON.stringify(tasks));
 }
 
-function savedelete(deleted) {
-    localStorage.setItem("deleted", JSON.stringify(deleted));
+function saveDeletedTasks(deletedTasks) {
+    localStorage.setItem("deleted", JSON.stringify(deletedTasks));
 }
 
-function addtask() {
+function addTask() {
     let title = inputtitle.value.trim();
     let priority = priorityselect.value;
     if (title === "") {
         alert("Task cannot be empty!");
         return;
     }
-    let task = getTask();
-    task.push({
-        "title": title,
-        "priority": priority,
-        "status": "pending"
+    let tasks = getTasks();
+    tasks.push({
+        title: title,
+        priority: priority,
+        status: "pending"
     });
-    saveTask(task);
-    showtask();
+    saveTasks(tasks);
+    showTasks();
     inputtitle.value = "";
     priorityselect.value = "low";
 }
 
-function showtask() {
+function showTasks() {
     tablebody.innerHTML = "";
-    let task = getTask();
-    task.forEach((el, index) => {
+    let tasks = getTasks();
+    tasks.forEach((task, index) => {
         let row = document.createElement("tr");
 
-        let namecell = document.createElement("td");
-        namecell.textContent = el.title;
-        row.appendChild(namecell);
+        let nameCell = document.createElement("td");
+        nameCell.textContent = task.title;
+        row.appendChild(nameCell);
 
-        let prioritycell = document.createElement("td");
-        prioritycell.textContent = el.priority;
-        row.appendChild(prioritycell);
+        let priorityCell = document.createElement("td");
+        priorityCell.textContent = task.priority;
+        priorityCell.style.color = getPriorityColor(task.priority);
+        row.appendChild(priorityCell);
 
-        let statuscell = document.createElement("td");
-        let statusbutton = document.createElement("button");
-        statusbutton.className = "toggle";
-        statusbutton.textContent = el.status;
-        statusbutton.addEventListener("click", () => togglestatus(index));
-        statuscell.appendChild(statusbutton);
-        row.appendChild(statuscell);
+        let statusCell = document.createElement("td");
+        let statusButton = document.createElement("button");
+        statusButton.className = "toggle";
+        statusButton.textContent = task.status;
+        statusButton.style.backgroundColor = getStatuscolor(task.status);
+        statusButton.addEventListener("click", () => toggleStatus(index));
+        statusCell.appendChild(statusButton);
+        row.appendChild(statusCell);
 
-        let deletecell = document.createElement("td");
-        let deletebutton = document.createElement("button");
-        deletebutton.className = "removebutton";
-        deletebutton.textContent = "remove";
-        deletebutton.style.backgroundColor="green"
-        deletebutton.addEventListener("click", () => remove(index));
-        deletecell.appendChild(deletebutton);
-        row.appendChild(deletecell);
+        let deleteCell = document.createElement("td");
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "removebutton";
+        deleteButton.textContent = "Remove";
+        deleteButton.addEventListener("click", () => removeTask(index));
+        deleteCell.appendChild(deleteButton);
+        row.appendChild(deleteCell);
 
         tablebody.appendChild(row);
     });
 }
-
-function togglestatus(index) {
-    let task = getTask();
-    task[index].status = task[index].status === "pending" ? "in-progress" : "complete";
-    saveTask(task);
-    showtask();
+function getStatuscolor(status){
+    if(status == "pending") return "rgb(255,165,0)";
+    if (status=== "in-progress") return "rgb(76,175,80)";
+    if (status === "complete") return "rgb(255,192,203)"
+}
+function getPriorityColor(priority) {
+    if (priority === "low") return "rgb(0,128,0)";
+    if (priority === "medium") return "rgb(0,0,255)";
+    if (priority === "high") return "rgb(255,0,0)";
 }
 
-function remove(index) {
-    let task = getTask();
-    let removed = getdelete();
-    removed.push(task[index]);
-    task.splice(index, 1);
-    saveTask(task);
-    savedelete(removed);
-    showtask();
+function toggleStatus(index) {
+    let tasks = getTasks();
+    let statuses = ["pending", "in-progress", "complete"];
+    let currentStatusIndex = statuses.indexOf(tasks[index].status);
+    tasks[index].status = statuses[(currentStatusIndex + 1) % statuses.length];
+    saveTasks(tasks);
+    showTasks();
 }
 
-addbtn.addEventListener("click", addtask);
-document.addEventListener("DOMContentLoaded", showtask);
+function removeTask(index) {
+    let tasks = getTasks();
+    let deletedTasks = getDeletedTasks();
+    deletedTasks.push(tasks[index]);
+    tasks.splice(index, 1);
+    saveTasks(tasks);
+    saveDeletedTasks(deletedTasks);
+    showTasks();
+}
+
+addbtn.addEventListener("click", addTask);
+document.addEventListener("DOMContentLoaded", showTasks);
