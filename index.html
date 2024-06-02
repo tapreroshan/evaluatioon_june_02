@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<style>
+    body{
+        background-color: #F2F2F2;
+    }
+    .navbar{
+        background-color: green;
+    }
+    .nav{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    a{
+        text-decoration: none;
+        color: #F2F2F2;
+    }
+    .container{
+        background: white;
+        margin-top: 50px;
+        margin-left: 40px;
+        margin-right: 40px;
+        display: flex;
+        box-sizing: border-box;
+        width: 100%;
+
+        border-radius: 8px;
+       
+    }
+    .input{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 10px;
+        border: 1px solid black;
+        margin: 30px;
+        padding: 20px;
+
+    }
+    .priority{
+        width: 10%;
+
+    }
+    table{
+       width: 50%;
+        border-collapse: collapse;
+        margin: 30px;
+
+    }
+    thead{
+        background-color: green;
+    }
+    th{
+        color: #F2F2F2;
+    }
+    th ,td{
+        padding: 8px;
+        text-align: center;
+    }
+    .removebutton{
+        background-color: greenyellow;
+        color: white;
+        padding: 8px;
+        border-radius: 6px;
+    }
+    .toggle{
+
+    }
+</style>
+<body>
+    <nav class="navbar">
+        <div class="nav">
+            <h3>Masai-Task-Manager</h3>
+            <a href="./index.html">Home</a>
+            <a href="./deleted_task.html">Deleted Task</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="input">
+            <input type="text" id="task" placeholder="Enter your task">
+           <select name="" id="priority" style="width: 90%;">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+           </select>
+            <button id="btn" style="background-color: green; color: #F2F2F2; border-radius: 5px; padding: 5px;">Create Task</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+
+            </tbody>
+        </table>    
+    </div>
+
+</body>
+<script src="./script/index.js"></script>
+</html>
